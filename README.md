@@ -2,17 +2,17 @@
 Mass download + edit photo urls
 
 ## Usage
-Download all photo urls in cars.csv to downloads/cars/.
+Download all photo urls in `cars.csv` to `./downloads/cars/`.
 ```
 make download file=cars.csv
 ```
 
-Resize all photos in downloads/.
+Resize all photos in `./downloads/`.
 ```
 make edit
 ```
 
-Remove all photos in downloads/.
+Delete `./downloads/`.
 ```
 make clean
 ```
