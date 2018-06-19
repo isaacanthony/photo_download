@@ -8,7 +8,7 @@ download:
 	done < $(file)
 
 edit:
-	@mogrify -resize 299x299 -format jpg downloads/*/*
+	@find ./downloads/ -type f -print0 | xargs -0 -n100 mogrify -resize 299x299 -format jpg
 	@find ./downloads/ -type f ! -name '*.jpg' -delete
 
 count:
