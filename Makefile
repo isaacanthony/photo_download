@@ -1,6 +1,11 @@
+all: download edit
+
 download:
-	$(eval dir=`echo "$(file)" | cut -d "." -f 1`)
-	sort $(file) | uniq | sed -e "s/\r//g" | xargs wget -nc --timeout=3 --tries=3 -P downloads/$(dir)
+	@while read -r line; do \
+		dir=`echo "$${line}" | cut -d , -f 1 | tr '[:upper:]' '[:lower:]' | tr ' ' '_'`; \
+		url=`echo "$${line}" | cut -d , -f 2`; \
+		wget -nc --timeout=3 --tries=3 -P downloads/$${dir} $${url}; \
+	done < $(file)
 
 count:
 	ls -R downloads/ | wc -l
