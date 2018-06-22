@@ -11,7 +11,7 @@ split:
 		test_size=`echo $${total_files} \* $(pct) | bc `; \
 		test_size_int=`echo $${test_size} | awk '{print int($$1+0.5)}'`; \
 		train_size=$$(( $${total_files} - $${test_size_int} )); \
-		rand_files=`grep "$${categories[n]}" $(file) | sort -R > tmp`; \
+		grep "$${categories[n]}" $(file) | sort -R > tmp; \
 		head -n $${test_size_int} tmp >> test.csv; \
 		tail -n $${train_size} tmp >> train.csv; \
 	done ; \
