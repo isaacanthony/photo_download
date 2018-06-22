@@ -1,5 +1,23 @@
 all: download edit count
 
+split:
+	@ IFS=$$'\n'; \
+	IN=`awk -F, '{print $$1}' $(file) | sort | uniq`; \
+	categories=($${IN});\
+	COUNT=`echo "$${#categories[@]}"`; \
+	unset IFS; \
+	for (( n=0; n < $$COUNT; n++ )); do \
+		total_files=`grep "$${categories[n]}" $(file) | wc -l`; \
+		test_size=`echo $${total_files} \* $(pct) | bc `; \
+		test_size_int=`echo $${test_size} | awk '{print int($$1+0.5)}'`; \
+		train_size=$$(( $${total_files} - $${test_size_int} )); \
+		rand_files=`grep "$${categories[n]}" $(file) | sort -R | cut -d , -f 2 > tmp`; \
+		head -n $${test_size_int} tmp >> test.csv; \
+		tail -n $${train_size} tmp >> train.csv; \
+	done ; \
+	rm tmp
+
+
 download:
 	@while read -r line; do \
 		dir=`echo "$${line}" | cut -d , -f 1 | tr "[:upper:]" "[:lower:]" | tr -cd "[:alnum:] " | sed -e "s/ \+/_/g"`; \
