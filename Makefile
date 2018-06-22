@@ -1,4 +1,10 @@
-all: download edit count
+
+all:
+	@make split
+	@make download file=test.csv
+	@make download file=train.csv
+	@make edit
+	@make count
 
 split:
 	@ IFS=$$'\n'; \
@@ -17,12 +23,12 @@ split:
 	done ; \
 	rm tmp
 
-
 download:
 	@while read -r line; do \
-		dir=`echo "$${line}" | cut -d , -f 1 | tr "[:upper:]" "[:lower:]" | tr -cd "[:alnum:] " | sed -e "s/ \+/_/g"`; \
+		dir=`echo $(file) | cut -d "." -f 1`; \
+		sub_dir=`echo "$${line}" | cut -d , -f 1 | tr "[:upper:]" "[:lower:]" | tr -cd "[:alnum:] " | sed -e "s/  */_/g"`; \
 		url=`echo "$${line}" | cut -d , -f 2`; \
-		wget -nc --timeout=3 --tries=3 -P downloads/$${dir} $${url}; \
+		wget -nc --timeout=3 --tries=3 -P downloads/$${dir}/"$${sub_dir}" $${url}; \
 	done < $(file)
 
 edit:
