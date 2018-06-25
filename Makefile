@@ -1,6 +1,6 @@
 
 all:
-	@make split
+	@make split pct=.2
 	@make download file=test.csv
 	@make download file=train.csv
 	@make edit
