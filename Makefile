@@ -32,7 +32,7 @@ download:
 	done < $(file)
 
 edit:
-	@find ./downloads/ -type f -print0 | xargs -0 -n100 mogrify -resize 299x299 -format jpg
+	@find ./downloads/ -type f -print0 | xargs -0 -n100 mogrify -resize 299x299 -background white -gravity center -extent 299x299 -format jpg
 	@find ./downloads/ -type f ! -name '*.jpg' -delete
 
 count:
